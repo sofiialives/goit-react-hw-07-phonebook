@@ -2,23 +2,29 @@ import React, { useEffect } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactsList } from './ContactsList/ContactList';
-import { useSelector } from 'react-redux';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchContacts } from 'redux/operations';
+import { errorSelector, loadingSelector } from 'redux/selectors';
 export function App() {
-  const contacts = useSelector(state => state.contacts.contacts);
+  const isLoading = useSelector(loadingSelector);
+  const error = useSelector(errorSelector);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const strContacts = JSON.stringify(contacts);
-    localStorage.setItem('contacts', strContacts);
-  }, [contacts]);
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div>
-      <h1>Phonebook</h1>
-      <ContactForm />
-      <h2>Contacts</h2>
-      <Filter/>
-      <ContactsList />
+      {isLoading && !error && (
+        <div>
+          <h1>Phonebook</h1>
+          <ContactForm />
+          <h2>Contacts</h2>
+          <Filter />
+          <ContactsList />
+        </div>
+      )}
     </div>
   );
 }
