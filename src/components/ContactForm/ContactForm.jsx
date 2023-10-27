@@ -2,10 +2,11 @@ import css from './ContactForm.module.css';
 import { nanoid } from 'nanoid';
 import { useSelector, useDispatch } from 'react-redux';
 import { addContact } from 'redux/operations';
-import { selectItems } from 'redux/selectors';
+import { selectError, selectItems } from 'redux/selectors';
 import { useState } from 'react';
 
 export function ContactForm() {
+  const error = useSelector(selectError);
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const contacts = useSelector(selectItems);
@@ -53,35 +54,38 @@ export function ContactForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={css.form}>
-      <label htmlFor={id}>Name</label>
-      <input
-        type="text"
-        name="name"
-        pattern="^[a-zA-Zа-яА-Я]+$"
-        minLength="3"
-        maxLength="16"
-        id={id}
-        value={name}
-        onChange={handleChange}
-        className={css.inputName}
-        required
-      />
-      <label htmlFor={id}>Number</label>
-      <input
-        type="tel"
-        name="number"
-        pattern="[0-9]{3}-[0-9]{2}-[0-9]{2}"
-        title="xxx-xx-xx"
-        id={id}
-        value={number}
-        onChange={handleChange}
-        className={css.inputName}
-        required
-      />
-      <button type="submit" className={css.buttonContacts}>
-        Add Contact
-      </button>
-    </form>
+    <>
+    {error && 'something went wrong'}
+      <form onSubmit={handleSubmit} className={css.form}>
+        <label htmlFor={id}>Name</label>
+        <input
+          type="text"
+          name="name"
+          pattern="^[a-zA-Zа-яА-Я]+$"
+          minLength="3"
+          maxLength="16"
+          id={id}
+          value={name}
+          onChange={handleChange}
+          className={css.inputName}
+          required
+        />
+        <label htmlFor={id}>Number</label>
+        <input
+          type="tel"
+          name="number"
+          pattern="[0-9]{3}-[0-9]{2}-[0-9]{2}"
+          title="xxx-xx-xx"
+          id={id}
+          value={number}
+          onChange={handleChange}
+          className={css.inputName}
+          required
+        />
+        <button type="submit" className={css.buttonContacts}>
+          Add Contact
+        </button>
+      </form>
+    </>
   );
 }
