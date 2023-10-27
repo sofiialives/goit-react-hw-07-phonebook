@@ -2,11 +2,11 @@ import css from './ContactList.module.css';
 import { deleteContact } from 'redux/operations';
 import { useDispatch, useSelector } from 'react-redux';
 import { useMemo } from 'react';
-import { itemsSelector, filterSelector } from 'redux/selectors';
+import { selectItems, selectFilter } from 'redux/selectors';
 
 export const ContactsList = () => {
-  const contacts = useSelector(itemsSelector);
-  const filter = useSelector(filterSelector);
+  const contacts = useSelector(selectItems);
+  const filter = useSelector(selectFilter);
   const dispatch = useDispatch();
 
   const filteredContacts = useMemo(() => {

@@ -2,13 +2,13 @@ import css from './ContactForm.module.css';
 import { nanoid } from 'nanoid';
 import { useSelector, useDispatch } from 'react-redux';
 import { addContact } from 'redux/operations';
-import { itemsSelector } from 'redux/selectors';
+import { selectItems } from 'redux/selectors';
 import { useState } from 'react';
 
 export function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  const contacts = useSelector(itemsSelector);
+  const contacts = useSelector(selectItems);
   const dispatch = useDispatch();
 
   const id = nanoid();
